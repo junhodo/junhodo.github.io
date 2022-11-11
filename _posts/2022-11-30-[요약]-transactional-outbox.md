@@ -26,9 +26,12 @@ Event Producer가 DB Transaction을 수행하고, 이벤트를 발행하는 경�
 
 ![diagram](https://microservices.io/i/patterns/data/ReliablePublication.png)
 
-Transactional outbox 패턴은 `outbox table` 테이블을 추가로 두어 이벤트를 기록하고(특정 레코드의 생성, 삭제, 수정 등과 같은 정보와 메세지 발행 여부)
-Message Relay(주기적으로 outbox table을 읽어 메세지를 발행하는 워크로드)를 추가 배치하여 문제를 해결합니다.
+Transactional outbox 패턴은 `outbox table` 테이블을 추가로 두어 이벤트를 기록하고 Message Relay를 추가 배치하여 문제를 해결합니다.
+
 이 때 목표 데이터와 outbox에 대한 operation은 transacion으로 처리돼야 합니다.
+
+> outbox table에 무엇을 기록하는가?: 레코드 식별자, 이벤트 타입, 메세지 발행 여부 등 상황에 맞춰서 기록
+Message Relay는 무엇을 하는가?: 지속적으로 outbox table을 읽어 이벤트를 발행한다.
 
 ### 장점
 
